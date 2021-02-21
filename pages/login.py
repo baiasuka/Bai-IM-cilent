@@ -4,6 +4,7 @@ from PyQt5.QtGui import QIcon, QFont
 from PyQt5.QtCore import pyqtSlot
 
 from request import http_request_sender
+from pages.regist import PageRegist
 
 
 class PageLogin(QWidget):
@@ -13,8 +14,6 @@ class PageLogin(QWidget):
     def __init__(self):
         super().__init__()
         QToolTip.setFont(QFont('SansSerif', 10))
-
-        self.setToolTip('')
 
         # 登录项表单
         form_login = QFormLayout()
@@ -38,6 +37,7 @@ class PageLogin(QWidget):
 
         btn_regist = QPushButton('注册', self)
         btn_regist.setToolTip('点击注册')
+        btn_regist.clicked.connect(self.click_regist)
         btn_regist.resize(btn_regist.sizeHint())
         btn_regist.move(240, 400)
 
@@ -49,7 +49,7 @@ class PageLogin(QWidget):
 
         # 设置logo
         self.setGeometry(300, 300, 640, 480)
-        self.setWindowTitle('Icon')
+        self.setWindowTitle('Bai-IM')
         self.setWindowIcon(QIcon('./static/icon/logo.png'))
 
         self.setLayout(form_login)
@@ -93,3 +93,11 @@ class PageLogin(QWidget):
             info = QMessageBox(QMessageBox.Warning, '错误', r["msg"])
             info.exec_()
             return True
+
+    def click_regist(self):
+        """
+        点击打开注册窗口
+        :return:
+        """
+        self.regist_page = PageRegist()
+        self.regist_page.open()
