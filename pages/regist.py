@@ -50,6 +50,10 @@ class PageRegist(QWidget):
         self.setLayout(form_regist)
 
     def open(self):
+        """
+        显示页面
+        :return:
+        """
         self.show()
 
     def submit_regist(self):
@@ -74,6 +78,11 @@ class PageRegist(QWidget):
             info.exec_()
             return True
         r = http_request_sender.signup(ua, up)
+        if r["code"] == 200:
+            info = QMessageBox(QMessageBox.Information, '提示', '创建账号成功')
+            self.close()
+        else:
+            info = QMessageBox(QMessageBox.Warning, '提示', r["msg"])
 
 
 if __name__ == '__main__':
