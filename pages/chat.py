@@ -1,10 +1,12 @@
 from PyQt5.QtWidgets import QApplication, QWidget, QToolTip, QPushButton, QMessageBox, QDesktopWidget, QFormLayout, \
     QTextEdit, QVBoxLayout
 from PyQt5.QtGui import QIcon, QFont
+from bs4 import BeautifulSoup
 
-from common.message import HistoryMessage
+from message import HisMsgContainer
+from pages.handler.text_handler import replace_remote_pic_to_local
 
-his_text = HistoryMessage()
+his_text = HisMsgContainer()
 
 
 class PageChat(QWidget):
@@ -16,6 +18,7 @@ class PageChat(QWidget):
         QToolTip.setFont(QFont('SansSerif', 10))
 
         self.his_content = QTextEdit()
+        self.his_content.setReadOnly(True)
         self.his_content.resize(600, 240)
         self.input_content = QTextEdit()
         self.his_content.resize(600, 120)
@@ -47,10 +50,12 @@ class PageChat(QWidget):
         self.show()
 
     def send_msg(self):
-        content = self.input_content.toPlainText()
+        content = self.input_content.toHtml()
+        soup = BeautifulSoup(content, 'html.parser')
+        soup = replace_remote_pic_to_local(soup)
         self.input_content.clear()
         his_text.addText(content)
-        self.his_content.setPlainText(his_text.toText())
+        self.his_content.insertHtml(soup.prettify())
 
 
 if __name__ == '__main__':

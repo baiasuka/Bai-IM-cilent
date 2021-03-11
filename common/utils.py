@@ -1,4 +1,5 @@
 import re
+import pathlib
 
 
 def check_username(username):
@@ -28,3 +29,10 @@ def check_password(password):
     else:
         return False
 
+
+def check_file_existed(path):
+    path = pathlib.Path(path)
+    if path.exists():
+        if path.is_file():
+            return True
+    return False

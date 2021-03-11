@@ -11,7 +11,7 @@ class Message:
         self.text = text
 
 
-class HistoryMessage:
+class HisMsgContainer:
     """
     历史消息
     """
