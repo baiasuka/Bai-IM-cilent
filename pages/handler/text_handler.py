@@ -7,7 +7,7 @@ from common.utils import check_file_existed
 
 def replace_remote_pic_to_local(soup_obj):
     """
-    替换消息框中的远程图片为本地图片
+    下载替换消息框中的远程图片为本地图片地址
     :param soup_obj:
     :return:
     """

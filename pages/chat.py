@@ -36,7 +36,7 @@ class PageChat(QWidget):
         btn_quit.resize(btn_quit.sizeHint())
         btn_quit.move(360, 400)
 
-        self.setGeometry(300, 300, 640, 480)
+        self.setGeometry(300, 300, 800, 600)
         layout = QVBoxLayout()
         layout.addWidget(self.his_content)
         layout.addWidget(self.input_content)

@@ -5,7 +5,7 @@ import asyncio
 from config import SERVER_IM_HOST, SERVER_IM_PORT, LISTEN_PORT
 
 # 消息比特字符终结标识
-MESSAGE_OVER_SIGN = b'xx@oo$n'
+MESSAGE_OVER_FLAG = b'2xx@oo$n'
 
 
 class MsgHandler:
@@ -19,18 +19,23 @@ class MsgHandler:
 
     def listening(self, window_obj):
         try:
+            bytes_queue = b''
             while True:
-                raw_data = self.s.recv(2048)
-                if raw_data:
-                    data = json.loads(raw_data.decode("utf-8"))
-                    content = data["content"]
-                    window_obj.his_content.insertPlainText(content)
+                new_bytes = self.s.recv(2048)
+                if new_bytes:
+                    bytes_queue += new_bytes
+                    byte_split = bytes_queue.split(MESSAGE_OVER_FLAG)
+                    if len(byte_split) == 2:
+                        byte_content, bytes_queue = byte_split
+                        data = json.loads(byte_content.decode("utf-8"))
+                        content = data["content"]
+                        window_obj.his_content.insertPlainText(content)
         except:
             self.s.close()
 
     def send(self, content):
         content = json.dumps(content)
-        self.s.send(bytes(content, encoding="utf-8"))
+        self.s.send(bytes(content, encoding="utf-8") + MESSAGE_OVER_FLAG)
 
     def close(self):
         self.s.close()

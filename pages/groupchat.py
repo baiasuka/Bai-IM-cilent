@@ -67,6 +67,7 @@ class PageGroupChat(QWidget):
     def open(self):
         msg_handler.send({"content": self.nick + "进入房间\n"})
         self.show()
+        # 开启线程接受消息
         rev_thread = Thread(target=msg_handler.listening, args=(self,))
         rev_thread.start()
 

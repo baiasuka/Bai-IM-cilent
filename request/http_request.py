@@ -9,14 +9,14 @@ class HttpRequestSender:
     封装的请求类
     """
     def __init__(self):
-        self._host = config.SERVER_HOST
-        self._port = config.SERVER_PORT
+        self._host = config.SERVER_HTTP_HOST
+        self._port = config.SERVER_HTTP_PORT
         self._root_url = '%s:%s' % (self._host, self._port)
         self._headers = {
             "auth-version": config.VERSION
         }
 
-    def set_headers_key(self, key, value):
+    def add_headers_key(self, key, value):
         """
         请求头增加键值
         :param key:
@@ -73,3 +73,10 @@ class HttpRequestSender:
         url = self._root_url + '/hall/room_list'
         response = requests.get(url, timeout=5, headers=self._headers)
         return json.loads(response.text)
+
+    def create_room(self):
+        """
+        创建房间
+        :return:
+        """
+        pass
